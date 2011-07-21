@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head> 
+    <meta name="description" content="HybridAuth A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, FourSquare, OpenID and many other Identity providers">
+    <meta name="keywords" content="HybridAuth, open source, userguide, web based, single-sign-on, sso, authentify, authentication, authorisation">
+    <link href="../css.css" rel="stylesheet" type="text/css">
+    <title>Integrating HybridAuth. Simple Sign-In Script </title>
+<style>
+table, table td {
+	border:0; 
+} 
+</style>
+    <style type="text/css">
+<!--
+.Style4 {
+	color: #006600;
+	font-weight: bold;
+}
+.Style5 {
+	color: #990000;
+	font-weight: bold;
+}
+.Style6 {
+	color: #000066;
+	font-weight: bold;
+}
+-->
+    </style>
+  </head>
+  <body>
+    <div id="con"> 
+      <div id="hdr">
+        <h1>HybridAuth, Open Source Social-Sign-On Solution</h1> 
+        <br />
+        <div style="color:#666; text-align:center;border-bottom: 1px solid #888899;padding: 3px 5px 8px;">
+        A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, FourSquare, OpenID and many other Identity providers</div>
+        
+      </div>
+      <div> 
+		<h2><a href="../userguide.html">HybridAuth User guide</a> »  Integrating HybridAuth - Simple Sign-In Script</h2> 
+ 
+<p>
+HybridAuth can  be easly integrated on you existing website. All you have to do is to include hybridauth main file and to add a couple of lines to your login page like it's shown in the sample bellow.
+</p>
+
+<p>
+This  snippet  will try to directly connect the user with  Twitter and then grab his <a href="Profile_Data_User_Profile.html">complete profile</a>. In advanced integration you can even access the provider social api client to get or post status on twitter, grab followers list, etc...</p>
+
+<p>
+<strong>Note: </strong>This script and more examples and demos can be found at /<b>hybridauth/examples</b>/ folder in the <span class="Style4">HybridAuth</span> package. 
+<br >
+Also a working demo is hosted at <a href="http://hauth.sx33.net/examples/" target="_blank">http://hauth.sx33.net/examples/</a>, so check it out! (note within a note: this hosted demo can have some network availability issues since it's a hosted on a free hosting service). 
+</p>
+
+<pre><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;This&nbsp;script&nbsp;will&nbsp;try&nbsp;to&nbsp;directly&nbsp;sign-in&nbsp;the&nbsp;user&nbsp;with&nbsp;twitter.&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;You&nbsp;can&nbsp;change&nbsp;"Twitter"&nbsp;IDp&nbsp;to&nbsp;whatever&nbsp;you&nbsp;want&nbsp;:&nbsp;Google,&nbsp;MySpace,&nbsp;Facebook,&nbsp;etc..
+
+<br />
+<br />&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;start&nbsp;a&nbsp;new&nbsp;PHP&nbsp;session
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">session_start</span><span style="color: #007700">();
+<br />&nbsp;&nbsp;&nbsp;&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;include&nbsp;HybridAuth&nbsp;main&nbsp;file
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">include&nbsp;</span><span style="color: #DD0000">"/path/to/hybrid/library/hybridauth.php"</span><span style="color: #007700">;&nbsp;
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;create&nbsp;a&nbsp;new&nbsp;Hybrid_Auth&nbsp;instance
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$hybridauth&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Hybrid_Auth</span><span style="color: #007700">();
+<br />&nbsp;&nbsp;&nbsp;&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;check&nbsp;for&nbsp;errors,&nbsp;if&nbsp;true&nbsp;we&nbsp;display&nbsp;the&nbsp;error&nbsp;message&nbsp;and&nbsp;rest&nbsp;evreything
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if(&nbsp;</span><span style="color: #0000BB">$hybridauth</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">hasError</span><span style="color: #007700">()&nbsp;){
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"Ooops&nbsp;error:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$hybridauth</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">getErrorMessage</span><span style="color: #007700">()&nbsp;;&nbsp;
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$hybridauth</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">expireStorage</span><span style="color: #007700">();&nbsp;&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exit(&nbsp;</span><span style="color: #0000BB">0&nbsp;</span><span style="color: #007700">);
+<br />&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;if&nbsp;the&nbsp;user&nbsp;dont&nbsp;have&nbsp;a&nbsp;session&nbsp;(not&nbsp;logged&nbsp;in&nbsp;yet),&nbsp;try&nbsp;to&nbsp;signin&nbsp;it&nbsp;with&nbsp;twitter
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if(&nbsp;!&nbsp;</span><span style="color: #0000BB">$hybridauth</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">hasSession</span><span style="color: #007700">()&nbsp;){&nbsp;&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;setup&nbsp;the&nbsp;provider&nbsp;adapter&nbsp;object&nbsp;as&nbsp;twitter&nbsp;and&nbsp;try&nbsp;to&nbsp;login
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$provider_adapter&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$hybridauth</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setup</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">"Twitter"&nbsp;</span><span style="color: #007700">);&nbsp;&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$provider_adapter</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">login</span><span style="color: #007700">();
+<br />&nbsp;&nbsp;&nbsp;&nbsp;}
+<br />
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;else,&nbsp;if&nbsp;the&nbsp;user&nbsp;is&nbsp;already&nbsp;connected&nbsp;
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">else{&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;reinit&nbsp;the&nbsp;provider&nbsp;adapter
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$provider_adapter&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$hybridauth</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">wakeup</span><span style="color: #007700">();&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;grab&nbsp;the&nbsp;user&nbsp;data&nbsp;from&nbsp;the&nbsp;provider
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$user_data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$provider_adapter</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">user</span><span style="color: #007700">();
+<br />
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;print&nbsp;the&nbsp;user&nbsp;profile&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"User&nbsp;connected&nbsp;with&nbsp;&lt;b&gt;</span><span style="color: #007700">{</span><span style="color: #0000BB">$user_data</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">providerId</span><span style="color: #007700">}</span><span style="color: #DD0000">&lt;/b&gt;&nbsp;as&nbsp;&lt;b&gt;</span><span style="color: #007700">{</span><span style="color: #0000BB">$user_data</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">profile</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">displayName</span><span style="color: #007700">}</span><span style="color: #DD0000">&lt;/b&gt;&nbsp;:&nbsp;&lt;hr&nbsp;/&gt;&lt;pre&gt;"</span><span style="color: #007700">;
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">print_r</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$user_data&nbsp;</span><span style="color: #007700">);&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;}
+<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</pre>
+
+<br />
+&nbsp;&nbsp;After authentication, the result page should be something like this :
+
+<pre style="line-height:120%;">
+User connected with <b>Twitter</b> as <b>hybridAuth</b> : <hr /> Hybrid_User Object
+(
+    [providerId] => Twitter
+    [UID] => b5e95c3462e786ba709fd58c8bf76949
+    [providerUID] => 80359084
+    [timestamp] => 1307368526
+    [populated] => 
+    [profile] => Hybrid_User_Profile Object
+        (
+            [webSiteURL] => http://hybridauth.sf.net
+            [profileURL] => http://twitter.com/hybridAuth
+            [photoURL] => http://a0.twimg.com/profile_images/480547080/twi_normal.gif
+            [displayName] => HybridAuth
+            [description] => HybridAuth, An Open Source Social-Sign-On PHP Library. #PHP #API #REST #OpenID #OAuth #SSO #Social
+            [firstName] => Zachy
+            [lastName] => 
+            [gender] => 
+            [language] => 
+            [age] => 
+            [birthDay] => 
+            [birthMonth] => 
+            [birthYear] => 
+            [email] => 
+            [phone] => 
+            [address] => 
+            [country] => 
+            [region] => 
+            [city] => 
+            [zip] => 
+        )
+)
+</pre>
+
+<br />
+<p>
+More examples and demos can be found at <b>/hybridauth/examples/</b> folder: 
+<center> 
+  <table width="50%" border="0">
+    <tr>
+      <td><b>1 - Simple authentication form</b><br ><br ><img src="img/embed.gif"   style="border:1px solid #ccc;padding:4px;" /></td> 
+    </tr> 
+    <tr>
+      <td><br ><br >
+      <b>2 - Sign-in and Register new users</b> (MySQL database needed)<br >
+      <br ><img src="img/singup.gif"   style="border:1px solid #ccc;padding:4px;" /></td> 
+    </tr> 
+    <tr> 
+      <td><br ><br >
+      <b>3 - Widget integration</b> (Just a proof of concept)<br >
+      <br ><img src="img/widget.gif"  style="border:1px solid #ccc;padding:4px;" /></td>
+    </tr> 
+  </table>
+</center>
+</p>
+      </div>  
+      <div id="ftr"> 
+        <p>
+          <a href="../index.html">Home</a> - 
+          <a href="Overview.html">Overview</a> - 
+		  <a href="../userguide.html">User guide</a> - 
+		  <a href="http://hybridauth.tumblr.com/">Blog</a> -           
+		  <a href="../contact.html">Contact</a> -
+		  <a href="../contact.html">Contribute</a> - 
+		  <a href="../licenses.html">Licenses</a> -
+		  <a href="../credits.html">Credits</a>  -
+		  <a href="../similar.html">Similar projects</a> 
+        </p> 
+      </div>
+    </div> 
+
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/hybridauth/" : "http://sourceforge.net/apps/piwik/hybridauth/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://sourceforge.net/apps/piwik/hybridauth/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-11037160-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>  
+<script src="../js.js"></script> 
+</body>
+</html>
+

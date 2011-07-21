@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head> 
+    <meta name="description" content="HybridAuth A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, FourSquare, OpenID and many other Identity providers">
+    <meta name="keywords" content="HybridAuth, open source, userguide, web based, single-sign-on, sso, authentify, authentication, authorisation">
+    <link href="../css.css" rel="stylesheet" type="text/css">
+    <title>HybridAuth - Implementing OpenID and Relying Party Discovery</title>
+    <style type="text/css">
+<!--
+.Style1 {
+	color: #000066;
+	font-weight: bold;
+}
+.Style2 {
+	color: #006600;
+	font-weight: bold;
+}
+.Style3 {
+	color: #990000;
+	font-weight: bold;
+}
+.Style5 {color: #330066; font-weight: bold; }
+.Style7 {color: #3333FF}
+-->
+    </style>
+</head>
+  <body>
+    <div id="con"> 
+      <div id="hdr">
+        <h1>HybridAuth, Open Source Social-Sign-On Solution</h1>
+       <br />
+        <div style="color:#666; text-align:center;border-bottom: 1px solid #888899;padding: 3px 5px 8px;">
+        A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, FourSquare, OpenID and many other Identity providers</div>
+        
+      </div>
+      <div> 
+		<h2><a href="../userguide.html">HybridAuth User guide</a> » Implementing OpenID and Relying Party Discovery<strong><br>
+		</strong></h2>
+
+<p class="note">
+    <strong>Note via: </strong><a href="http://blog.nerdbank.net/2008/06/why-yahoo-says-your-openid-site.html">http://blog.nerdbank.net/2008/06/why-yahoo-says-your-openid-site.html</a><br>
+	       You must advertise your XRDS document from your Realm URL<br>
+	       Add the following line inside the HEAD tags of your Realm page:<br>
+&lt;meta http-equiv=&quot;X-XRDS-Location&quot; content=&quot;http://yourdomain.com/hybridauth_path/or_somthing_like_that/?openid_xrds&quot;/&gt; 
+<br />
+<br />
+          <strong>Note via: </strong><a href="http://developer.yahoo.com/openid/faq.html">http://developer.yahoo.com/openid/faq.html</a><br>
+	       Yahoo! displays the above warning for Relying Parties which fail to implement Section 13: Discovering OpenID Relying Parties of the <br>
+	       OpenID 2.0 Protocol. Implementing Relying Party Discovery enables Yahoo to verify your site's OpenID Realm when <br>
+          servicing Authentication Requests from your site.         </p>
+ 
+<hr />
+		  <p><span class="Style1"><strong>hybridauth/index.php</strong> is used to Serve the OpenID XRDS document</span>:
+          <br />
+          This xrds doc can be found at <strong>./hybridauth/Hybrid/resources/openid_xrds.xml</strong><br>
+          
+<br />
+Depending on your settings, <strong>{RETURN_TO_URL}</strong> can be something like <span class="Style7">http://yoursite.com/path_to_hybridauth/?hauth.done=OpenID</span>
+<pre style="line-height:120%;">&lt;xrds:XRDS  
+    xmlns:xrds=&quot;xri://$xrds&quot;  
+    xmlns:openid=&quot;http://openid.net/xmlns/1.0&quot;  
+    xmlns=&quot;xri://$xrd*($v*2.0)&quot;&gt;  
+    &lt;XRD&gt;  
+        &lt;Service priority=&quot;1&quot;&gt;  
+            &lt;Type&gt;http://specs.openid.net/auth/2.0/return_to&lt;/Type&gt;  
+            &lt;URI&gt;<span class="Style3">{RETURN_TO_URL}</span>&lt;/URI&gt;  
+        &lt;/Service&gt;  
+    &lt;/XRD&gt;  
+&lt;/xrds:XRDS&gt;
+</pre>
+		  <br>
+            </p> <hr />
+          <p><span class="Style2"><strong>hybridauth/index.php</strong> also used to Advertise XRDS document</span> :
+          <br />The html content can be found at <strong>./hybridauth/Hybrid/resources/openid_realm.html</strong><br>
+<br />
+Depending on your settings, the url can be something like <span class="Style7"><strong> </strong></span> <span class="Style7">http://yoursite.com/path_to_hybridauth/?get=openid_xrds 
+</span>          
+<pre style="line-height:120%;">&lt;html&gt;
+	&lt;head&gt; 
+		&lt;meta http-equiv=&quot;<span class="Style3">X-XRDS-Location&quot;</span> content=&quot;<span class="Style3">{X_XRDS_LOCATION}&quot;</span> /&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+          <br>
+   <hr />
+          <p><span class="Style5"># <strong>/hybridauth/index.php</strong> also used to serve your policy terms</span> :
+          <br />
+          The html content can be found at <strong>./hybridauth/Hybrid/resources/openid_policy.html</strong><br>
+<br />
+Depending on your settings, the url can be something like <span class="Style7"><em>http://yoursite.com/path_to_hybridauth/?get=openid_policy</em></span>
+<pre style="line-height:120%;">&lt;html&gt;
+	&lt;head&gt; 
+		&lt;title&gt;OpenID Policy&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;!--
+			Set here your OpenID Policy,
+		--&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</pre>  
+      <div id="ftr"> 
+        <p>
+          <a href="../index.html">Home</a> - 
+          <a href="Overview.html">Overview</a> - 
+		  <a href="../userguide.html">User guide</a> - 
+		  <a href="http://hybridauth.tumblr.com/">Blog</a> -           
+		  <a href="../contact.html">Contact</a> -
+		  <a href="../contact.html">Contribute</a> - 
+		  <a href="../licenses.html">Licenses</a> -
+		  <a href="../credits.html">Credits</a>  -
+		  <a href="../similar.html">Similar projects</a> 
+        </p> 
+      </div>
+    </div> 
+
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/hybridauth/" : "http://sourceforge.net/apps/piwik/hybridauth/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://sourceforge.net/apps/piwik/hybridauth/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-11037160-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>  
+<script src="../js.js"></script> 
+</body>
+</html>

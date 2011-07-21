@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head> 
+    <meta name="description" content="HybridAuth A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, FourSquare, OpenID and many other Identity providers">
+    <meta name="keywords" content="HybridAuth, open source, userguide, web based, single-sign-on, sso, authentify, authentication, authorisation">
+    <link href="../css.css" rel="stylesheet" type="text/css">
+    <title>HybridAuth userguide. Scheduled IDps</title>
+  </head>
+  <body>
+    <div id="con"> 
+      <div id="hdr">
+        <h1>HybridAuth, Open Source Social-Sign-On Solution</h1>
+        <br />
+        <div style="color:#666; text-align:center;border-bottom: 1px solid #888899;padding: 3px 5px 8px;">
+        A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, FourSquare, OpenID and many other Identity providers</div>
+
+      </div>
+      <div> 
+		<h2><a href="../userguide.html">HybridAuth User guide</a> » Debugging and Logging</h2> 
+
+		<p>
+        	To enable Logging, you have to set <b>$GLOBAL_HYBRID_AUTH_DEBUG_MODE</b> to <b style="color:green">TRUE</b> on <b>hybridauth/hybridauth.php</b> configuration file.
+            <br /><br />
+            By default the log file can be located in the HybridAuth temporary folder. The complete path to log file on your server should be something like this:  <b>/www/mywebsite.com/<b style="color:green">temp</b>/</b><b style="color:blue">log.log</b> 
+            <br /><br />
+            There is 3 levels defined in HybridAuth Logger :<br />
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>INFO</b> : Log a message at the info level. 
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>DEBUG</b> : Log a message at the debug level. 
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>EURROR</b> : Log a message at the error level. 
+        </p>
+
+&nbsp;&nbsp;<b>Sample of a log file :</b>
+<pre style="line-height:120%;">INFO -- 197.*.*.107 -- 2011-06-06T16:18:09+03:00 -- Enter Hybrid_Provider_Adapter::getConfigById() -- Twitter
+INFO -- 197.*.*.107 -- 2011-06-06T16:18:09+03:00 -- Hybrid_Storage_File::get( hauth_session.user.data ) -- 
+INFO -- 197.*.*.107 -- 2011-06-06T16:18:09+03:00 -- Enter [Twitter]::initialize() -- 
+INFO -- 197.*.*.107 -- 2011-06-06T16:18:09+03:00 -- Hybrid_Storage_File::get( hauth_session.twitter.oauth_access_token ) -- 
+INFO -- 197.*.*.107 -- 2011-06-06T16:18:09+03:00 -- Hybrid_Storage_File::get( hauth_session.twitter.oauth_access_token_secret ) -- 
+INFO -- 197.*.*.107 -- 2011-06-06T16:18:09+03:00 -- Hybrid_Storage_File::get( hauth_session.twitter.oauth_access_token ) -- 
+INFO -- 197.*.*.107 -- 2011-06-06T16:18:09+03:00 -- Hybrid_Storage_File::get( hauth_session.twitter.oauth_access_token_secret ) -- 
+INFO -- 197.*.*.107 -- 2011-06-06T16:18:09+03:00 -- Enter [Twitter]::loginBegin() -- 
+INFO -- 197.*.*.107 -- 2011-06-06T16:18:10+03:00 -- Hybrid_Storage_File::set( hauth_session.twitter.oauth_state )  -- start
+DEBUG -- 197.*.*.107 -- 2011-06-06T16:18:10+03:00 -- Hybrid_Storage_File::set( hauth_session.twitter.oauth_request_token )  -- FEIFzsi5hu2BkMgT3ZAqjYupcyoag1FLWjqNH3IKs
+DEBUG -- 197.*.*.107 -- 2011-06-06T16:18:10+03:00 -- Hybrid_Storage_File::set( hauth_session.twitter.oauth_request_token_secret )  -- nCugTQiYZtqKPd3WTS8wBkn1pz8wNnM2oZogVi2Dw
+DEBUG -- 197.*.*.107 -- 2011-06-06T16:18:10+03:00 -- Enter Hybrid_Auth::redirect() -- https://twitter.com/oauth/authorize?oauth_token=FEIFzsi5hu2BkMgT3ZAqjYupcyoag1FLWjqNH3IKs
+INFO -- 197.*.*.107 -- 2011-06-06T16:18:14+03:00 -- Enter Hybrid_Auth::startStorage() -- 
+DEBUG -- 197.*.*.107 -- 2011-06-06T16:18:14+03:00 -- Hybrid_Auth::startStorage() storageKey -- b5e95c3462e786ba709fd58c8bf76949
+</pre>
+
+      </div> 
+      <div id="ftr"> 
+        <p>
+          <a href="../index.html">Home</a> - 
+          <a href="Overview.html">Overview</a> - 
+		  <a href="../userguide.html">User guide</a> - 
+		  <a href="http://hybridauth.tumblr.com/">Blog</a> -           
+		  <a href="../contact.html">Contact</a> -
+		  <a href="../contact.html">Contribute</a> - 
+		  <a href="../licenses.html">Licenses</a> -
+		  <a href="../credits.html">Credits</a>  -
+		  <a href="../similar.html">Similar projects</a> 
+        </p> 
+      </div>
+    </div>  
+
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/hybridauth/" : "http://sourceforge.net/apps/piwik/hybridauth/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://sourceforge.net/apps/piwik/hybridauth/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-11037160-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>  
+<script src="../js.js"></script> 
+</body>
+</html>

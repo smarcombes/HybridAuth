@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head> 
+    <meta name="description" content="HybridAuth A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, AOL, Vimeo, FourSquare, OpenID and other Identity providers">
+    <meta name="keywords" content="HybridAuth, open source, userguide, web based, single-sign-on, sso, authentify, authentication, authorisation">
+    <link href="../css.css" rel="stylesheet" type="text/css">
+    <title>HybridAuth - Facebook</title>
+    <style type="text/css">
+<!--
+.Style1 {color: #FF0000}
+.Style3 {color: #FF0000; font-weight: bold; }
+-->
+    </style>
+</head>
+  <body>
+    <div id="con"> 
+      <div id="hdr">
+        <h1>HybridAuth, Open Source Social-Sign-On Solution</h1> 
+        <br />
+        <div style="color:#666; text-align:center;border-bottom: 1px solid #888899;padding: 3px 5px 8px;">
+        A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, FourSquare, OpenID and many other Identity providers</div>
+      </div>
+      <div> 
+		<h2><a href="../userguide.html">HybridAuth User guide</a> » <a href="Supported_identity_providers_and_setup_keys.html">Supported identity providers</a> » Facebook</h2>  
+ 
+ 
+<h4>Synopsis</h4> 
+<pre><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;start&nbsp;a&nbsp;new&nbsp;PHP&nbsp;session
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">session_start</span><span style="color: #007700">();
+<br />
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;include&nbsp;HybridAuth&nbsp;main&nbsp;file
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">include&nbsp;</span><span style="color: #DD0000">"path/to/hybridauth/hybridauth.php"</span><span style="color: #007700">;
+
+<br />
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;create&nbsp;a&nbsp;new&nbsp;Hybrid_Auth&nbsp;instance&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$hybridauth&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Hybrid_Auth</span><span style="color: #007700">();
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;setup&nbsp;<span style="color: #DD0000">Facebook</span>&nbsp;adapter&nbsp;
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$provider_adapter&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$hybridauth</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">setup</span><span style="color: #007700">(&nbsp;</span><span style="color: #DD0000">"Facebook"&nbsp;</span><span style="color: #007700">);
+<br />
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">#&nbsp;start&nbsp;login
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$provider_adapter</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">login</span><span style="color: #007700">();
+<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</pre>
+
+
+
+    <h4>Registering application</h4>
+    <p>Go to <a href="https://www.facebook.com/developers/apps.php">https://www.facebook.com/developers/apps.php</a> to create a new application. Fill required input, then copy your created application credentials (App ID and App Secret) and <a href="Supported_identity_providers_and_setup_keys.html#SETUP_API_KEYS">set them on HybridAuth config file</a>,    </p>
+    <div style="text-align: center;"><img src="img/setup_facebook_01.gif" style="border: 1px solid rgb(64, 184, 39); padding: 5px;"></div>
+    <h3>Provider Adapter</h3>
+<table width="100%" border="1" cellpadding="3" cellspacing="0" bordercolor="#666666">
+<tr>
+			    <td width="19%" bgcolor="#CCCCCC"><b>&nbsp;ID</b></td>
+			    <td>Facebook</td>
+			  </tr> 
+			  <tr>
+			    <td bgcolor="#CCCCCC"><b>&nbsp;Protocol</b></td>
+			    <td>Facebook Connect</td>
+			  </tr> 
+			  <tr>
+			    <td bgcolor="#CCCCCC"><b>&nbsp;IDp URL</b></td>
+			    <td>http://www.facebook.com/</td>
+			  </tr> 
+			  <tr>
+			    <td bgcolor="#CCCCCC"><b>&nbsp;Keys registeration</b></td>
+			    <td>https://www.facebook.com/developers/apps.php</td>
+			  </tr> 
+			  <tr>
+			    <td bgcolor="#CCCCCC"><b>&nbsp;Dev documentation</b></td>
+			    <td>http://developers.facebook.com/</td>
+			  </tr> 
+			  <tr>
+			    <td bgcolor="#CCCCCC"><b>&nbsp;Description</b></td>
+			    <td>Facebook  Connect is a powerful set of APIs for developers that lets users bring  their identity and connections everywhere. Developers get access a  user's identity profile ...</td>
+			  </tr> 
+			  <tr>
+                <td bgcolor="#CCCCCC"><b>&nbsp;Author</b></td>
+			    <td>Zachy &lt;hybridauth=at=gmail-dot-com&gt;</td>
+			  </tr>
+	  <tr>
+        <td bgcolor="#CCCCCC"><b>&nbsp;Based on</b></td>
+			    <td>Facebook Platform PHP5 client and fb footprints apps </td>
+	  </tr>
+	  <tr>
+        <td bgcolor="#CCCCCC"><b>&nbsp;Version</b></td>
+			    <td>1.2</td>
+	  </tr>
+	  <tr>
+        <td bgcolor="#CCCCCC"><b>&nbsp;Since</b></td>
+			    <td>HybridAuth 1.0.1</td>
+	  </tr> 
+			</table>
+
+
+ <table width="100%" border="1" cellpadding="3" cellspacing="0" bordercolor="#666666">
+			  <tr>
+                <td width="19%" bgcolor="#CCCCCC"><b>&nbsp;Wrapper</b></td>
+			    <td width="81%">./Hybrid/Providers/Facebook.php</td>
+	      </tr> 
+			  <tr>
+                <td bgcolor="#CCCCCC"><b>&nbsp;Required Libs</b></td>
+			    <td>./Hybrid/thirdparty/Facebook/</td>
+	      </tr> 
+			  <tr>
+                <td bgcolor="#CCCCCC"><b>&nbsp;URL Start login<span class="Style1">*</span></b></td>
+			    <td>http://mywebsite.com/path_to_hybridauth/?hauth.start=<strong>Facebook</strong></td>
+		  </tr>
+			   
+			  <tr>
+                <td bgcolor="#CCCCCC"><b>&nbsp;URL Login done<span class="Style1">*</span></b></td>
+			    <td>http://mywebsite.com/path_to_hybridauth/?hauth.done=<strong>Facebook</strong></td>
+		  </tr>
+		</table>
+       <p class="note">
+        <span class="Style3">*</span>For more informations about adapter <b>URL Start Login</b> and <b>URL Login done</b>, please refer to <a href="HybridAuth_endpoint_URL.html">HybridAuth endpoint URL</a> section.</p>
+      </div> 
+      <div id="ftr"> 
+        <p>
+          <a href="../index.html">Home</a> - 
+          <a href="Overview.html">Overview</a> - 
+		  <a href="../userguide.html">User guide</a> - 
+		  <a href="http://hybridauth.tumblr.com/">Blog</a> -           
+		  <a href="../contact.html">Contact</a> -
+		  <a href="../contact.html">Contribute</a> - 
+		  <a href="../licenses.html">Licenses</a> -
+		  <a href="../credits.html">Credits</a>  -
+		  <a href="../similar.html">Similar projects</a> 
+        </p> 
+      </div>
+    </div> 
+
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/hybridauth/" : "http://sourceforge.net/apps/piwik/hybridauth/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://sourceforge.net/apps/piwik/hybridauth/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-11037160-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>  
+<script src="../js.js"></script> 
+</body>
+</html>

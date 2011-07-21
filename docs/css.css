@@ -1,0 +1,215 @@
+/* @override http://test.dev.lo.lo/hybridauth/new/css.css */
+
+/* @group Base
+--------------------------------------------- */
+
+html, body, div, h1, h2, p { 
+	margin:0;
+	padding:0;
+	border:0;
+}
+html{
+	height: 100%;
+  	background-color: #eee;
+}
+body{
+	height: 95%;
+	font-size:10px;
+	font-family:Arial,sans-serif;
+	color:#000;
+	text-align:center;
+	padding: 15px 0;
+
+  /* fallback */
+  background-color: #dddde8;
+  
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(100% 100% 90deg, #eee, #dddde8);
+  
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#dddde8), to(#eee));
+  
+  /* Safari 5.1+, Chrome 10+ */
+  background: -webkit-linear-gradient(#eee, #dddde8);
+  
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(#eee, #dddde8);
+} 
+h1{
+	font-size:24px;
+	color:#556;
+	margin:0 0 0 0;
+	text-align:center;
+	text-shadow: 1px 1px 2px #aaa;
+}
+h2{
+	font-size:18px;
+	color: #9999AA;
+	border-bottom:1px solid #dde;
+	padding:3px 5px 8px 5px;
+	margin:5px 0 13px 0;
+	line-height: 120%;
+	font-weight: normal;
+}
+h2 a{
+	text-decoration:none;
+}
+h3{
+	color: #9999AA;
+	margin: 25px 0 15px 0;
+	letter-spacing: 1px;
+		
+}
+A{
+	color: #22A;
+}
+A:visited{
+	color: #00F;
+}
+A:hover{
+	color: #55F;
+}
+p{
+	padding:0 1em 1.8em 1em;
+	line-height: 140%;
+	color: #333;
+}
+
+table {
+	border:1px solid #ccc;
+	border-collapse: collapse;
+	margin: 0 0 20px 0;
+}
+table td {
+	border:1px solid #aab;
+	border-collapse:collapse;
+	padding:2px;
+	text-align:left
+}
+#con img{
+	border: 1px solid #ddd !important;
+}
+LI{
+	padding-bottom: 6px;
+}
+
+/* @end */
+
+/* @group Divs
+------------------------------------ */
+
+#con {
+	width:775px;
+	margin:10px auto 25px auto;
+	text-align:left;
+	font-size:1.3em;
+	padding: 20px 25px;
+	background: #fff;
+	border-radius:10px;
+	border: 3px solid #889;
+	box-shadow: 2px 2px 10px #aaa;
+	-moz-box-shadow: 2px 2px 10px #aaa;
+	-webkit-box-shadow: 2px 2px 10px #aaa;
+
+} 
+#hdr {
+	padding-bottom: 39px;
+} 
+#tnt {
+	clear:left;
+	float:left;
+	width:445px; 
+}
+#rgt { 
+	margin-left:470px;
+}
+#ftr {
+	clear:both;
+	text-align:center;
+	color:#666;
+	margin-top:40px;
+}
+#ftr P{
+	padding-bottom: 5px;
+}
+#ftr A{
+	display: inline-block;
+	padding: 5px 6px;
+	text-decoration: none;
+	font-size: 12px;
+	border-radius: 4px;
+	color: #fff;
+	box-shadow: 2px 2px 3px #aaa;
+	-moz-box-shadow: 2px 2px 3px #aaa;
+	-webkit-box-shadow: 2px 2px 3px #aaa;
+	background: #889;
+	border: 1px solid #667;
+}
+#ftr A:hover{
+	box-shadow: -1px -1px 2px #aaa;
+	-moz-box-shadow: -1px -1px 2px #aaa;
+	-webkit-box-shadow: -1px -1px 2px #aaa;
+	border: 1px solid #000;
+	background: #556;
+	color: #fffec1;
+}
+#ftr P{
+	font-size: 8px;
+	color: #fff;
+}
+#ftr P BR{
+	display: none;
+}
+
+/* @end */
+
+.note {
+	background: #fefbc5;
+	border: 1px solid #ffdd30;
+	color:#333333;
+	margin:15px 0 15px 0;
+	padding:15px;
+	border-radius: 6px;
+	color:#633;
+} 
+
+
+/* @group PHP
+------------------------------------ */
+
+pre {
+/*
+	background-color:#EDF7FF;
+	border:1px solid #dde;
+	direction:ltr;
+	font-family:"Courier New",Courier,monospace;
+	font-size:11px;
+	line-height:140%;
+	margin:10px 0 15px 20px;
+	overflow:auto;
+	padding:10px 10px;
+	box-shadow:   -1px -1px 5px #eee;
+	-moz-box-shadow:  -1px -1px 5px #eee;
+	-webkit-box-shadow: -1px -1px 5px #eee;
+	border-radius: 2px;
+*/
+
+    background-color: #FFFFEE;
+    border: 1px solid #EEDDAA;
+    border-radius: 6px 6px 6px 6px;
+    _font-size: 0.9em;
+    margin-bottom: 16px;
+    padding: 8px 16px;
+    position: relative;
+	line-height:65%;
+	overflow:auto;
+}
+code {
+
+}
+ 
+
+#twtr-widget-1{
+	height: 305px;
+	overflow: visible;
+}

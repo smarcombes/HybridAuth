@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head> 
+    <meta name="description" content="HybridAuth A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, FourSquare, OpenID and many other Identity providers">
+    <meta name="keywords" content="HybridAuth, open source, userguide, web based, single-sign-on, sso, authentify, authentication, authorisation">
+    <link href="../css.css" rel="stylesheet" type="text/css">
+    <title>HybridAuth 1.0 userguide. Integrating HybridAuth. Sign-In/Register new signups (Pseudo code example) </title>
+  </head>
+  <body>
+    <div id="con"> 
+      <div id="hdr">
+        <h1>HybridAuth, Open Source Social-Sign-On Solution</h1>
+       <br />
+        <div style="color:#666; text-align:center;border-bottom: 1px solid #888899;padding: 3px 5px 8px;">
+        A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, FourSquare, OpenID and many other Identity providers</div>
+      </div>
+      <div> 
+		<h2><a href="../userguide.html">HybridAuth User guide</a> » Register new users (Pseudo code example)</h2>  
+
+<br />
+		<div style="text-align:center;"><img src="img/Integrating_HybridAuth.gif" style="border:1px solid #40b827;padding:5px; " ></div> 
+<br />
+<div class="php"> 
+ <ol><li class="li1"><div class="de1"><span class="kw2">&lt;?php</span> </div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.php.net/session_start"><span tooltip="linkalert-tip" class="kw3">session_start</span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span> </div></li>
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="re0">$url_signup_page</span> &nbsp; &nbsp;<span class="sy0">=</span> <span class="st0">"http://www.yoursite.com/signup"</span><span class="sy0">;</span></div></li>
+
+<li class="li2"><div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="re0">$url_signin_error</span> &nbsp; <span class="sy0">=</span> <span class="st0">"http://www.yoursite.com/login_error"</span><span class="sy0">;</span></div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="re0">$url_user_home_page</span> <span class="sy0">=</span> <span class="st0">"http://www.yoursite.com/account_home"</span><span class="sy0">;</span> </div></li>
+
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li1">
+  <div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">include</span> <span class="st0">"path/to/hybrid/hybrid.config.php"</span><span class="sy0">;</span></div>
+</li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">include</span> <span class="st0">"path/to/hybrid/hybrid.bootstrap.php"</span><span class="sy0">;</span></div></li>
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li2"><div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="co2"># We setup a new Hybrid_Auth instance, if hauth_idprovider is set</span></div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span><span class="br0">(</span> <a href="http://www.php.net/isset"><span class="kw3">isset</span></a><span class="br0">(</span> <span class="re0">$_REQUEST</span><span class="br0">[</span><span class="st0">"hauth_idprovider"</span><span class="br0">]</span> <span class="br0">)</span> <span class="br0">)</span><span class="br0">{</span></div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="co1">// callback url, "?callback" parameter can be renamed</span></div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="re0">$params</span><span class="br0">[</span><span class="st0">"hauth_return_to"</span><span class="br0">]</span> <span class="sy0">=</span> Hybrid_Auth<span class="sy0">::</span><span class="me2">getCurrentUrl</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">.</span> <span class="st0">"?callback"</span><span class="sy0">;</span></div></li>
+
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li2"><div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="re0">$hauth</span> <span class="sy0">=</span> Hybrid_Auth<span class="sy0">::</span><span class="me2">setup</span><span class="br0">(</span> <span class="re0">$_REQUEST</span><span class="br0">[</span><span class="st0">"hauth_idprovider"</span><span class="br0">]</span><span class="sy0">,</span> <span class="re0">$params</span> <span class="br0">)</span><span class="sy0">;</span></div></li>
+
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span><span class="br0">(</span> <span class="sy0">!</span> <span class="re0">$hauth</span> <span class="sy0">||</span> <span class="sy0">!</span> <span class="re0">$hauth</span><span class="sy0">-&gt;</span><span class="me1">login</span><span class="br0">(</span><span class="br0">)</span> <span class="br0">)</span><span class="br0">{</span></div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; redirect_to<span class="br0">(</span> <span class="re0">$url_signin_error</span> <span class="br0">)</span><span class="sy0">;</span></div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div></li>
+<li class="li2"><div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div></li>
+<li class="li1"><div class="de1">&nbsp;</div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="co2"># detect if the user is connected (after user aproval), we re "wakeup" Hybrid_Auth user session</span></div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span><span class="br0">(</span> Hybrid_Auth<span class="sy0">::</span><span class="me2">hasSession</span><span class="br0">(</span><span class="br0">)</span> <span class="br0">)</span><span class="br0">{</span> </div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="re0">$hauth</span> <span class="sy0">=</span> Hybrid_Auth<span class="sy0">::</span><span class="me2">wakeup</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span></div></li>
+
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li1">
+  <div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="re0">$user_exist</span> <span class="sy0">=</span> is_user_exist<span class="br0">(</span> <span class="re0">$hauth<span class="sy0">-&gt;</span><span class="me1">user</span><span class="sy0">()</span></span><span class="sy0">-&gt;</span><span class="me1">providerId</span><span class="sy0">,</span> <span class="re0">$hauth</span><span class="sy0">-&gt;</span><span class="me1">user</span><span class="sy0">()-&gt;</span><span class="me1">providerUID</span> <span class="br0">)</span><span class="sy0">;</span></div>
+</li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span><span class="br0">(</span> <span class="re0">$user_exist</span> <span class="br0">)</span><span class="br0">{</span></div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; redirect_to<span class="br0">(</span> <span class="re0">$url_user_home_page</span> <span class="br0">)</span><span class="sy0">;</span></div></li>
+
+<li class="li2"><div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">else</span><span class="br0">{</span></div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; redirect_to<span class="br0">(</span> <span class="re0">$url_signup_page</span> <span class="br0">)</span><span class="sy0">;</span></div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div></li>
+<li class="li2"><div class="de2">&nbsp;</div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="co2"># detect if the user dont garant access to our poor script</span></div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span><span class="br0">(</span> <a href="http://www.php.net/isset"><span class="kw3">isset</span></a><span class="br0">(</span> <span class="re0">$_REQUEST</span><span class="br0">[</span><span class="st0">"callback"</span><span class="br0">]</span> <span class="br0">)</span> <span class="sy0">&amp;&amp;</span> Hybrid_Auth<span class="sy0">::</span><span class="me2">hasError</span><span class="br0">(</span><span class="br0">)</span> <span class="br0">)</span></div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">{</span></div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">echo</span> <span class="st0">"&lt;pre&gt;Error #"</span> <span class="sy0">.</span> Hybrid_Auth<span class="sy0">::</span><span class="me2">getErrorCode</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">.</span> <span class="st0">" "</span> <span class="sy0">.</span> Hybrid_Auth<span class="sy0">::</span><span class="me2">getErrorMessage</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">.</span> <span class="st0">"<span class="es1">\n</span>"</span> <span class="sy0">.</span> Hybrid_Auth<span class="sy0">::</span><span class="me2">getErrorTrace</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">.</span> <span class="st0">"&lt;/pre&gt;"</span><span class="sy0">;</span></div></li>
+
+<li class="li2"><div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div></li>
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="co2"># return true if user exist in your database</span></div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw2">function</span> is_user_exist<span class="br0">(</span> <span class="re0">$id_provider</span><span class="sy0">,</span> <span class="re0">$id_user</span> &nbsp;<span class="br0">)</span><span class="br0">{</span></div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw4">NULL</span><span class="sy0">;</span></div></li>
+<li class="li2"><div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span> </div></li>
+
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw2">function</span> redirect_to<span class="br0">(</span> <span class="re0">$url</span> <span class="br0">)</span><span class="br0">{</span></div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.php.net/header"><span class="kw3">header</span></a><span class="br0">(</span> <span class="st0">"Location "</span> <span class="sy0">.</span> <span class="re0">$url</span> <span class="br0">)</span><span class="sy0">;</span></div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.php.net/exit"><span tooltip="linkalert-tip" class="kw3">exit</span></a><span class="br0">(</span> <span class="nu0">0</span> <span class="br0">)</span><span class="sy0">;</span></div></li>
+<li class="li2"><div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">}</span></div></li>
+
+<li class="li1"><div class="de1"><span class="sy1">?&gt;</span> </div></li>
+<li class="li1"><div class="de1">&lt;html&gt;&lt;body&gt;</div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;h2&gt;Sign-in form&lt;/h2&gt;</div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;table width="00%" border="0" cellpadding="2" cellspacing="2"&gt;</div></li>
+
+<li class="li2"><div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;tr&gt;</div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;td&gt;&lt;div align="right"&gt;&lt;strong&gt;login&lt;/strong&gt;&lt;/div&gt;&lt;/td&gt;</div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;td&gt;&lt;input type="text" name="textfield" id="textfield" disabled /&gt;&lt;/td&gt;</div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/tr&gt;</div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;tr&gt;</div></li>
+<li class="li2"><div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;td&gt;&lt;div align="right"&gt;&lt;strong&gt;password&lt;/strong&gt;&lt;/div&gt;&lt;/td&gt;</div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;td&gt;&lt;input type="text" name="textfield2" id="textfield2" disabled /&gt;&lt;/td&gt;</div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/tr&gt;</div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;tr&gt; </div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;td&gt;&amp;nbsp;&lt;/td&gt; </div></li>
+
+<li class="li2"><div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;td&gt;&lt;div align="center"&gt;&lt;input type="submit" </div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value="Um supposed to be a Submit button, but i do nothing" /&gt;&lt;/div&gt; &lt;/td&gt;</div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/tr&gt;</div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;/table&gt;</div></li>
+<li class="li1"><div class="de1">&nbsp;</div></li>
+<li class="li2"><div class="de2">&nbsp; &nbsp; &nbsp; &nbsp; &lt;h3&gt;Or use one of thoses identity providers&lt;/h3&gt;</div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &amp;nbsp;&amp;nbsp;&lt;a href="?hauth_idprovider=Facebook_Connect"&gt;Sign-in with Facebook Accounts&lt;/a&gt;&lt;br /&gt;</div></li>
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &amp;nbsp;&amp;nbsp;&lt;a href="?hauth_idprovider=MySpaceID"&gt;Sign-in with MySpace ID&lt;/a&gt;&lt;br /&gt;</div></li>
+
+<li class="li1"><div class="de1">&nbsp; &nbsp; &nbsp; &nbsp; &amp;nbsp;&amp;nbsp;&lt;a href="?hauth_idprovider=AOL"&gt;Sign-in with AOL&lt;/a&gt;&lt;br /&gt;</div></li>
+<li class="li1"><div class="de1">&lt;/body&gt;&lt;/html&gt;</div></li>
+</ol>
+</div>
+ 
+      </div>  
+      <div id="ftr"> 
+        <p>
+          <a href="../index.html">Home</a> - 
+          <a href="Overview.html">Overview</a> - 
+		  <a href="../userguide.html">User guide</a> - 
+		  <a href="http://hybridauth.tumblr.com/">Blog</a> -           
+		  <a href="../contact.html">Contact</a> -
+		  <a href="../contact.html">Contribute</a> - 
+		  <a href="../licenses.html">Licenses</a> -
+		  <a href="../credits.html">Credits</a>  -
+		  <a href="../similar.html">Similar projects</a> 
+        </p> 
+      </div>
+    </div> 
+
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/hybridauth/" : "http://sourceforge.net/apps/piwik/hybridauth/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://sourceforge.net/apps/piwik/hybridauth/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-11037160-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>  
+<script src="../js.js"></script> 
+</body>
+</html>

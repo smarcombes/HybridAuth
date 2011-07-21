@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head> 
+    <meta name="description" content="HybridAuth 1.0.x userguide. open source Web based Single-Sign-On PHP Library used to authentify users with major Web account providers and accessing social and data apis at Google, Facebook">
+    <meta name="keywords" content="HybridAuth, open source, userguide, web based, single-sign-on, sso, authentify, authentication, authorisation">
+    <link href="../css.css" rel="stylesheet" type="text/css">
+    <title>HybridAuth - Getting User profile</title>
+</head>
+  <body>
+    <div id="con"> 
+      <div id="hdr">
+        <h1>HybridAuth, Open Source Social-Sign-On Solution</h1> 
+      </div>
+      <div> 
+		<h2><a href="../userguide.html">HybridAuth User guide</a> » Getting User profile</h2> 
+ 
+ 		<p align="justify">
+        After authenfication, HybridAuth provide the connected user profile's in a rich, simple and <a href="Profile_Data_User_Profile.html#USER_PROFILE_STUCTURE">standardized structure</a> across all the social APIs.
+        <br /> 
+        <img src="img/data-available-from-various-sites.gif" width="300" align="left" style="border:1px solid #40b827;padding:4px;margin:20px;">
+        <br />
+        This can be done by calling back the provider adapter from the main HybridAuth instance. With the returned object [<strong>Provider_Adapter</strong>], we will have access to: the provider API client, some informations about the connected provider (provider name, configuration, parameters, connection time, etc.), and the <a href="Profile_Data_User_Profile.html#USER_PROFILE">user data and profile</a> objects [<strong>Hybrid_User</strong>] and [<strong>Hybrid_User_Profile</strong>].
+        
+ 		<br /> <br />
+        <em>
+        Please keep in mind that not all social APIs will provide all the user data to third-party  
+        The [<strong>Hybrid_User_Profile</strong>] object will be populated with as much information about the user as HybridAuth was able to pull from the given API or authentication provider.</em><br /> 
+        
+        <br /><br />
+        
+ 		<br />
+ 		  This snippet show how to use HybridAuth to acces the the current loggedin user data in a simple way:
+	    </p>
+ 
+<pre><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php
+<br /></span><span style="color: #FF8000">#&nbsp;We&nbsp;assume&nbsp;the&nbsp;user&nbsp;is&nbsp;already&nbsp;connected&nbsp;to&nbsp;a&nbsp;provider
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$hybridauth&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Hybrid_Auth</span><span style="color: #007700">();&nbsp;</span><span style="color: #FF8000">#&nbsp;create&nbsp;the&nbsp;main&nbsp;HybridAuth&nbsp;instance
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$provider_adapter&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$hybridauth</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">wakeup</span><span style="color: #007700">();&nbsp;</span><span style="color: #FF8000">#&nbsp;callback&nbsp;the&nbsp;provider&nbsp;adapter
+<br />
+<br />#&nbsp;then&nbsp;let&nbsp;inspect&nbsp;Provider&nbsp;Adapter&nbsp;Object
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;The&nbsp;ID&nbsp;(name)&nbsp;of&nbsp;the&nbsp;connected&nbsp;provider
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$provider_adapter</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">user</span><span style="color: #007700">()-&gt;</span><span style="color: #0000BB">providerId</span><span style="color: #007700">;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;The&nbsp;user's&nbsp;UNIQUE&nbsp;ID&nbsp;on&nbsp;the&nbsp;connected&nbsp;provider
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$provider_adapter</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">user</span><span style="color: #007700">()-&gt;</span><span style="color: #0000BB">providerUID&nbsp;</span><span style="color: #007700">;
+<br />&nbsp;&nbsp;&nbsp;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;instance&nbsp;of&nbsp;Hybrid_User_Profile&nbsp;describing&nbsp;user&nbsp;Profile&nbsp;Data&nbsp;Members
+
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">print_r</span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$provider_adapter</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">user</span><span style="color: #007700">()-&gt;</span><span style="color: #0000BB">profile&nbsp;</span><span style="color: #007700">);
+<br />
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;get&nbsp;the&nbsp;user&nbsp;email
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$provider_adapter</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">user</span><span style="color: #007700">()-&gt;</span><span style="color: #0000BB">profile</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">email</span><span style="color: #007700">;
+
+<br />
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;get&nbsp;the&nbsp;user&nbsp;display&nbsp;name
+<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$provider_adapter</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">user</span><span style="color: #007700">()-&gt;</span><span style="color: #0000BB">profile</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">dispalyName</span><span style="color: #007700">;
+<br /></span><span style="color: #0000BB">?&gt;</span>
+
+</span>
+</pre>
+        
+        
+        
+ 		<br /><br />
+<a name="USER_PROFILE" ></a>
+		<h2>1. Hybrid_User Object</h2> 
+		<p><strong>Hybrid_User</strong> object represents the current logged in user and contain the user identification, provider identification, connection timestamp and the normalized user profile.
+        <br /><br />
+		<b> Object Data Members :</b>
+		</p>
+<table width="100%" border="1" cellpadding="3" cellspacing="0" bordercolor="#666666">
+			  <tr>
+			    <td width="14%" bgcolor="#CCCCCC"><b>Field Name</b></td>
+			    <td width="8%" bgcolor="#CCCCCC"><b>Type</b></td>
+			    <td width="78%" bgcolor="#CCCCCC"><b>Short description</b></td>
+			  </tr>
+			  <tr>
+			    <td>&nbsp;providerId</td>
+			    <td>&nbsp;String</td>
+			    <td>&nbsp;The ID or name of the connected provider</td>
+			  </tr>
+			  <tr>
+			    <td>&nbsp;UID</td>
+			    <td>&nbsp;String</td>
+			    <td>&nbsp;Unique session ID for the connected user, eq to session_id().</td>
+			  </tr>
+			  <tr>
+			    <td>&nbsp;providerUID</td>
+			    <td>&nbsp;String</td>
+			    <td>&nbsp;The Unique user's ID on the connected provider. </td>
+			  </tr>
+			  <tr>
+			    <td>&nbsp;timestamp</td>
+			    <td>&nbsp;integer</td>
+			    <td>&nbsp;The created <b>Hybrid_User</b> instance timestamp</td>
+			  </tr> 
+			  <tr>
+			    <td>&nbsp;profile</td>
+			    <td>&nbsp;Object </td>
+			    <td> &nbsp;An instance of <b>Hybrid_User_Profile</b> describing user Profile Data Membes</td>
+			  </tr>
+			</table>
+		<br />
+        <a name="USER_PROFILE_STUCTURE" ></a>
+		<h2>2. Hybrid_User_Profile Object</h2>
+		<p>Hybrid_User_Profile object represents the current logged in user profile. list of fields available in the normalized user profile structure used by HybridAuth. 
+        The [<strong>Hybrid_User_Profile</strong>] object is populated with as much information about the user as HybridAuth was able to pull from the given API or authentication provider.<br /><br />
+		<b> Object Data Members :</b>
+</p>
+
+ 			<table width="100%" border="1" cellpadding="3" cellspacing="0" bordercolor="#666666">
+			  <tr>
+			    <td width="14%" bgcolor="#CCCCCC"><b>Field Name</b></td>
+			    <td width="8%" bgcolor="#CCCCCC"><b>Type</b></td>
+			    <td width="78%" bgcolor="#CCCCCC"><b>Short description</b></td>
+			  </tr>
+			  <tr>
+			    <td>profileURL</td>
+			    <td>&nbsp;String</td>
+			    <td>URL link to profile page on the IDp web site</td>
+			  </tr> 
+			  <tr>
+			    <td>webSiteURL</td>
+			    <td>&nbsp;String</td>
+			    <td>User website, blog, web page, </td>
+			  </tr> 
+			  <tr>
+			    <td>photoURL</td>
+			    <td>&nbsp;String</td>
+			    <td>URL link to user photo or avatar</td>
+			  </tr> 
+			  <tr>
+			    <td>displayName</td>
+			    <td>&nbsp;String</td>
+			    <td> User dispalyName provided by the IDp or a concatenation of first and last name. </td>
+			  </tr> 
+			  <tr>
+			    <td>description</td>
+			    <td>&nbsp;String</td>
+			    <td>A short about_me</td>
+			  </tr> 
+			  <tr>
+			    <td>firstName</td>
+			    <td>&nbsp;String</td>
+			    <td>User's first name</td>
+			  </tr> 
+			  <tr>
+			    <td>lastName</td>
+			    <td>&nbsp;String</td>
+			    <td>User's last name</td>
+			  </tr> 
+			  <tr>
+			    <td>gender</td>
+			    <td>&nbsp;String</td>
+			    <td> User's  gender. Values are 'female', 'male' or NULL</td>
+			  </tr> 
+			  <tr>
+			    <td>language</td>
+			    <td>&nbsp;String</td>
+			    <td>User's language</td>
+			  </tr> 
+			  <tr>
+			    <td>age</td>
+			    <td>&nbsp;Integer</td>
+			    <td>User' age, note that we dont calculate it. we return it as is if the IDp provide it</td>
+			  </tr>  
+			  <tr>
+			    <td>birthDay</td>
+			    <td>&nbsp;Integer</td>
+			    <td>The day in the month in which the person was born.</td>
+			  </tr> 
+			  <tr>
+			    <td>birthMonth</td>
+			    <td>&nbsp;Integer</td>
+			    <td>The month in which the person was born.</td>
+			  </tr> 
+			  <tr>
+			    <td>birthYear</td>
+			    <td>&nbsp;Integer</td>
+			    <td>The year in which the person was born.</td>
+			  </tr> 
+			  <tr>
+			    <td>email</td>
+			    <td>&nbsp;String</td>
+			    <td>User email. Not all of IDp garant access to the user email</td>
+			  </tr> 
+			  <tr>
+			    <td>phone</td>
+			    <td>&nbsp;String</td>
+			    <td>User's phone number</td>
+			  </tr> 
+			  <tr>
+			    <td>address</td>
+			    <td>&nbsp;String</td>
+			    <td>User's address</td>
+			  </tr> 
+			  <tr>
+			    <td>country</td>
+			    <td>&nbsp;String</td>
+			    <td>User's country</td>
+			  </tr> 
+			  <tr>
+			    <td>region</td>
+			    <td>&nbsp;String</td>
+			    <td> User's state or region&nbsp; </td>
+			  </tr> 
+			  <tr>
+			    <td>city</td>
+			    <td>&nbsp;String</td>
+			    <td>User's city</td>
+			  </tr> 
+			  <tr>
+			    <td>zip</td>
+			    <td>&nbsp;Integer</td>
+			    <td>Postal code or zipcode.</td>
+			  </tr> 
+			</table> 
+
+      </div> 
+      <div id="ftr"> 
+        <p>
+          <a href="../index.html">Home</a> - 
+          <a href="Overview.html">Overview</a> - 
+		  <a href="../userguide.html">User guide</a> - 
+		  <a href="http://hybridauth.tumblr.com/">Blog</a> -           
+		  <a href="../contact.html">Contact</a> -
+		  <a href="../contact.html">Contribute</a> - 
+		  <a href="../licenses.html">Licenses</a> -
+		  <a href="../credits.html">Credits</a>  -
+		  <a href="../similar.html">Similar projects</a> 
+        </p> 
+      </div>
+    </div> 
+
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/hybridauth/" : "http://sourceforge.net/apps/piwik/hybridauth/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://sourceforge.net/apps/piwik/hybridauth/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-11037160-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>  
+<script src="../js.js"></script> 
+</body>
+</html>

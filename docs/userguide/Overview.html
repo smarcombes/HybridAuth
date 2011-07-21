@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head> 
+    <meta name="description" content="HybridAuth A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, FourSquare, OpenID and many other Identity providers">
+    <meta name="keywords" content="HybridAuth, open source, userguide, web based, single-sign-on, sso, authentify, authentication, authorisation">
+    <link href="../css.css" rel="stylesheet" type="text/css">
+    <title>HybridAuth - Overview</title>
+<style>
+table, table td {
+	border:0; 
+} 
+</style>
+  </head>
+  <body>
+    <div id="con"> 
+      <div id="hdr">
+        <h1>HybridAuth, Open Source Social-Sign-On Solution</h1>
+       <br />
+        <div style="color:#666; text-align:center;border-bottom: 1px solid #888899;padding: 3px 5px 8px;">
+        A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, FourSquare, OpenID and many other Identity providers</div>
+
+ 
+          <div id="ftr" style="margin-bottom: -15px;margin-top: 20px;"> 
+            <p> 
+              <a href="Overview.html">Overview</a> - 
+              <a href="../userguide.html">User guide</a> -        
+              <a href="../contact.html">Contact</a> -
+              <a href="../contact.html">Contribute</a> - 
+              <a href="../licenses.html">Licenses</a> -
+              <a href="../credits.html">Credits</a>  -
+              <a href="../similar.html">Similar projects</a> 
+            </p>
+          </div>
+      </div>
+      <div> 
+		<h2><a href="../index.html">Home</a> » <a href="../userguide.html">HybridAuth User guide</a> » Overview</h2> 
+		<p><br />
+		  <b style="border-bottom: 1px solid #3C0;color:green;">1. Introduction</b>
+		  <br />
+		  <br />
+		  HybridAuth is an open source web based single-sign-on solution. HybridAuth allow and manage the authentication process when a user want to log into your web site or blog with their OpenID, Facebook, Google, Twitter, MySpace, AOL and some other  social networks or <a href="http://www.google.com/search?q=identity provider definition">IDentity Providers</a> services (also called <strong>IDp</strong>). <br>
+		  <br>
+		  The main task of HybridAuth is to performs two types of actions:<strong>
+		  user Authentication</strong> and <strong>access Autorisation</strong>: 
+          <br /><br />
+          i) During the Authentication step, the user is redirected to his identity provider authentification page to enter their login and password and be asked for approval. When the user is returned back to your web site, the identity provider sends an encrypted token that indicates a successful Authentication. <br />
+          <br />
+          ii) Once a user has authenticated, HybridAuth move to the next step and  requires that the identity provider give your web site a temporary Autorisation to read the user account information (profile, contacts list, etc.). <br />
+          
+      	  <br />  <br />
+		  <b style="border-bottom: 1px solid #3C0;color:green;">2. keep it short, What is HybridAuth?</b>
+		  <br />
+		  <br />
+	    HybridAuth is A PHP Library for authentication through Facebook, Twitter, Google, Yahoo, MySpace, LinkedIn, FourSquare, OpenID and many other Identity providers. That is it!
+	    </p>
+        
+		<p>  <br />
+		<b style="border-bottom: 1px solid #3C0;color:green;">3. why bother?</b> 
+        </p> 
+        <ul style="margin-top: 0px !important;padding-left: 34px !important;color: #000000;">
+            <li>HybridAuth makes it easy to authenticate users with a wide variety of well known social websites,</li> 
+            <li>After authenfication, HybridAuth provide the connected user profile's in a rich, simple and standardized structure across all the social APIs,</li> 
+            <li>Been made on top of others open source third party client libraries, HybridAuth allow you to use thoses libraries not only to autenticates users but also for interacting with the social API client the user is connected to. (eg. you can grab the user freinds list, events list, the user photos or albums list, update status, to upload stuff, to edit some other stuff, ... ),</li>
+            <li>The complexity of implementing identity providers authentication and authorization protocols are simplified for the developers,</li>  
+            <li>All transactions are completely transparent to the end user,</li>             
+        </ul> 
+
+<p style=" padding-left:25px !important;color: #000000; ">
+And also, to get HybridAuth up and running, all what you have to do, is to <a href="Install.html">install</a> HybridAuth library in your site, configure some required Social Network <a href="Supported_identity_providers_and_setup_keys.html">extarnal applications Keys</a>, add a <a href="Integrating_HybridAuth_SignIn.html">couple of lines</a> and  some awesome "<strong>sign in with ...</strong>" <a href="http://images.google.com/images?q=sign-in+with+social+icons">icons</a> <strong>to your login page</strong>, and it's done.<br>
+</p>
+        
+        
+		<p>  <br />
+		<b style="border-bottom: 1px solid #3C0;color:green;">4. How it work?</b>
+		<br />   
+		<table width="100%" border="0">
+		<tr>
+		<td colspan="2" valign="top"> 
+			<ol style="line-height:1.4em;margin-top:0;">
+				<li>From your login page, a user chooses to "<b>sign-in with"</b> an IDp,</li> 
+				<li>HybridAuth will handle the authentication request by instantiating the appropriate IDp adapter,</li>  
+				<li>Once started, the adapter  will redirect  the user to the chosen IDp site, where it will be  asked for approval,</li>  
+				<li><span style="color: #FF0000;font-weight: bold;">IF</span> the user don't grants access to your site, some IDp will callback (redirect the user once again to your web site) in what they call "cancel mode". JUMP to <strong>.7</strong></li>  
+				<li><span style="color: #003300;font-weight: bold;">ELSEIF</span> the user grants access to your site, IDp will callback again your site with some extra GET/POST parameters attached,</li>  
+				<li>HybridAuth, will do some magic to grap the user profile from the IDp API,</li>  
+				<li><b>End of story</b>.</li>  
+			</ol>		</td>
+   		  </tr>
+		<tr>
+        <td width="49%" valign="top"><div align="right"><a href="img/Integrating_simple_signin.gif"><img src="img/Integrating_simple_signin.gif" alt="" width="374" height="226"  style="border: 1px solid rgb(64, 184, 39); padding: 5px;"></a></div></td>
+		<td width="51%" valign="top"><div align="left"><a href="img/Overview2.gif"><img src="img/Overview2.gif" alt="" width="374" height="226" style="border: 1px solid rgb(64, 184, 39); padding: 5px;"></a></div></td>
+		</tr>
+		</table>  
+        
+        <br>
+		<p> <b style="border-bottom: 1px solid #3C0;color:green;">5. Why?</b> 
+		<p> 
+		After reading a stupid blog post about federated login, my boss has asked me to allow our  users to login  to our website with different providers like facebook, twitter but without using any of the already <a href="../similar.html">free to use service</a> out there ... <br />
+		<br />
+	    <a href="img/zachy_story.png"><img src="img/zachy_story.png" style="border:1px solid #40b827;padding:1px;" width="770px" border="0"></a> 
+        <br /> <br />
+		Back then, I almost passed away while reading and trying to understand the  so long and the <b>SO</b> boring developer documentation of each social network api and each authentification protocol specification. So, HybridAuth come as a try to prevent this from happening to another one for the sake of humanity :D<br>
+        <br><br />
+        <b style="border-bottom: 1px solid #3C0;color:green;">6. By?</b> <br>
+        <br> 
+        A random web developer in his spare time.
+		<br>
+		<br>
+        <br> 
+        <b style="border-bottom: 1px solid #3C0;color:green;">7. Side note</b>  
+        <p> I confess that i make use of microsoft office for flow charts and Diagrams. I am not particularly proud of it, but its the easiest way ever. and yeah sure, I'll use gliffy at least the next time,</p>
+        
+	  </div> 
+      <div id="ftr"> 
+        <p>
+          <a href="../index.html">Home</a> - 
+          <a href="Overview.html">Overview</a> - 
+		  <a href="../userguide.html">User guide</a> - 
+		  <a href="http://hybridauth.tumblr.com/">Blog</a> -           
+		  <a href="../contact.html">Contact</a> -
+		  <a href="../contact.html">Contribute</a> - 
+		  <a href="../licenses.html">Licenses</a> -
+		  <a href="../credits.html">Credits</a>  -
+		  <a href="../similar.html">Similar projects</a> 
+        </p> 
+      </div>
+    </div>
+
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/hybridauth/" : "http://sourceforge.net/apps/piwik/hybridauth/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://sourceforge.net/apps/piwik/hybridauth/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-11037160-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>  
+<script src="../js.js"></script> 
+</body>
+</html>
