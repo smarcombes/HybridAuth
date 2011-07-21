@@ -90,7 +90,7 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model
 		Hybrid_Logger::info( "Enter [{$this->providerId}]::loginBegin()" );
 
 		$url = $this->api->getLoginUrl(array(
-						'scope'        => 'email, user_about_me, user_birthday, user_hometown, user_website',
+						'scope'        => 'email, publish_stream, offline_access, user_about_me, user_birthday, user_hometown, user_website',//'email, user_about_me, user_birthday, user_hometown, user_website',
 						'redirect_uri' => $GLOBAL_HYBRID_AUTH_URL_EP . ( strpos( $GLOBAL_HYBRID_AUTH_URL_EP, '?' ) ? '&' : '?' ) . "hauth.done=Facebook",
 					));  
 
@@ -164,6 +164,11 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model
 		}
 
 		$data = $this->api->api('/me');
+		
+					
+    # Save access token
+    $this->user->lastValidAuthToken->providerName = "Facebook";
+    $this->user->lastValidAuthToken->token        = $this->api->getAccessToken();
 
 		Hybrid_Logger::info( "[{$this->providerId}]::getUserProfile(), Get user data", $data );
 
@@ -182,12 +187,12 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model
 		$this->user->profile->firstName     = @ $data['first_name'];
 		$this->user->profile->lastName     	= @ $data['last_name'];
 		$this->user->profile->photoURL      = "https://graph.facebook.com/" . $this->user->providerUID . "/picture";
-		$this->user->profile->profileURL 	= @ $data['link']; 
-		$this->user->profile->webSiteURL 	= @ $data['website']; 
-		$this->user->profile->gender     	= @ $data['gender'];
+		$this->user->profile->profileURL  	= @ $data['link']; 
+		$this->user->profile->webSiteURL  	= @ $data['website']; 
+		$this->user->profile->gender      	= @ $data['gender'];
 		$this->user->profile->description  	= @ $data['bio'];
-		$this->user->profile->email      	= @ $data['email'];
-		$this->user->profile->language    	= @ $data['locale'];
+		$this->user->profile->email        	= @ $data['email'];
+    $this->user->profile->language    	= @ $data['locale'];
 
 		if( isset( $data['birthday'] ) ) {
 			list($birthday_month, $birthday_day, $birthday_year) = @ explode('/', $data['birthday'] );

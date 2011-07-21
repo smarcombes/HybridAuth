@@ -24,6 +24,7 @@
  *
  * @package    Hybrid_Auth 
  * @author     Zachy <hybridauth@gmail.com>
+ * @author     Séverin MARCOMBES <severin.marcombes (GMAIL)> (small contribution)  
  * @version    1.0
  * @since      HybridAuth 1.0.1 
  * @link       http://hybridauth.sourceforge.net/userguide/Profile_Data.html
@@ -63,6 +64,11 @@ class Hybrid_User
 	*/
 	var $profile      = NULL;
 
+	 /**                                                                                                                         
+	* Last valid auth token (if any) enabling to interact with the user data provider                                            
+	*/                                                                                                                           
+	var $lastValidAuthToken      = NULL;    
+
    /**
 	* user contacts list, for future use
 	*/
@@ -79,6 +85,9 @@ class Hybrid_User
 		$this->UID          = session_id();
 
 		$this->profile      = new Hybrid_User_Profile();
+		$this->lastValidAuthToken                 = new stdClass();                                                                
+		$this->lastValidAuthToken->providerName   = NULL;                                                                          
+		$this->lastValidAuthToken->token          = NULL;  
 
 		# for future use, HybridAuth dont provide users contats on this version
 		#      $this->contacts     = new Hybrid_User_Contacts();

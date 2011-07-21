@@ -215,7 +215,11 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model
       $access_token = getAccessToken($consumer, $sig_method, $request_token);
 
       if(strlen($access_token) > 0)
-      {      
+      {
+        # Save access token
+        $this->user->lastValidAuthToken->providerName = "Google";
+        $this->user->lastValidAuthToken->token        = @json_encode($access_token);
+      
         # Set user as being connected
         Hybrid_Logger::info( "[{$this->providerId}]::loginFinish(), Set user to connected" );
 			  Hybrid_Auth::storage()->set( "hauth_session.is_logged_in", 1 ); 
