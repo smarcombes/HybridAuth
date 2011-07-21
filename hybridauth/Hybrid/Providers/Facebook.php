@@ -22,6 +22,7 @@
  *
  * @package    Hybrid_Auth 
  * @author     Zachy <hybridauth@gmail.com>
+ * @author     Séverin MARCOMBES <severin.marcombes (GMAIL)> (small contribution)
  * @version    1.3
  * @since      HybridAuth 1.0
  * @link       http://hybridauth.sourceforge.net/userguide/IDProvider_info_Facebook.html
@@ -186,6 +187,7 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model
 		$this->user->profile->gender     	= @ $data['gender'];
 		$this->user->profile->description  	= @ $data['bio'];
 		$this->user->profile->email      	= @ $data['email'];
+		$this->user->profile->language    	= @ $data['locale'];
 
 		if( isset( $data['birthday'] ) ) {
 			list($birthday_month, $birthday_day, $birthday_year) = @ explode('/', $data['birthday'] );

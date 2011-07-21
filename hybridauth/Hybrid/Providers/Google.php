@@ -24,6 +24,7 @@
  *
  * @package    Hybrid_Auth 
  * @author     Zachy <hybridauth@gmail.com>
+ * @author     Séverin MARCOMBES <severin.marcombes (GMAIL)> (small contribution)
  * @version    1.2
  * @since      HybridAuth 1.0.1 
  * @link       http://hybridauth.sourceforge.net/userguide/IDProvider_info_Google.html
@@ -193,6 +194,8 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model
 	*/
 	function loginFinish( )
 	{
+    GLOBAL $GLOBAL_HYBRID_AUTH_PATH_LIBRARIES;
+    
 		# if user don't garant acess of their data to your site, halt with an Exception
 		if( isset( $_REQUEST['openid_mode'] ) && $_REQUEST['openid_mode'] == 'cancel' )
 		{
@@ -200,36 +203,95 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model
 		} 
 
 		# else, if user garant acess
+		$userConnected = false;
 		if( isset( $_REQUEST['openid_mode'] ) && $_REQUEST['openid_mode'] == 'id_res' )
 		{
-			Hybrid_Logger::info( "[{$this->providerId}]::loginFinish(), Set user to connected" );
-			Hybrid_Auth::storage()->set( "hauth_session.is_logged_in", 1 ); 
+			# Transform Google request token to an access token
+      require_once $GLOBAL_HYBRID_AUTH_PATH_LIBRARIES . "Google/hybrid-authdance-essentials.php";
+      require_once $GLOBAL_HYBRID_AUTH_PATH_LIBRARIES . "Google/portable-contacts-access.php";
+      $consumer = new OAuthConsumer($this->config["keys"]["CONSUMER_KEY"], $this->config["keys"]["CONSUMER_SECRET"]);
+      $sig_method = $SIG_METHODS['HMAC-SHA1'];
+      $request_token = @$_REQUEST['openid_ext2_request_token'];
+      $access_token = getAccessToken($consumer, $sig_method, $request_token);
 
-			# store user ID, 
-			# in Google case, uid can be an unique url "openid_identity" or his email, so we choose "openid_identity"
-			$this->user->providerUID          = @ $_REQUEST["openid_identity"];  
+      if(strlen($access_token) > 0)
+      {      
+        # Set user as being connected
+        Hybrid_Logger::info( "[{$this->providerId}]::loginFinish(), Set user to connected" );
+			  Hybrid_Auth::storage()->set( "hauth_session.is_logged_in", 1 ); 
+			  $userConnected = true;
+			  
+			  # store user ID, 
+        # in Google case, uid can be an unique url "openid_identity" or his email, so we choose "openid_identity"
+        $this->user->providerUID          = @ $_REQUEST["openid_identity"];  
 
-			# detect user profile from the returned data 
-			$this->user->profile->profileURL  = @ $_REQUEST["openid_identity"];
-			$this->user->profile->firstName   = @ $_REQUEST['openid_ext1_value_first'];
-			$this->user->profile->lastName    = @ $_REQUEST['openid_ext1_value_last'];
-			$this->user->profile->displayName = $this->user->profile->firstName . " " . $this->user->profile->lastName;
-			$this->user->profile->email       = @ $_REQUEST['openid_ext1_value_email'];
-			$this->user->profile->language    = @ $_REQUEST['openid_ext1_value_lang'];
-			$this->user->profile->country     = @ $_REQUEST['openid_ext1_value_country'];
-
-			Hybrid_Logger::info( "[{$this->providerId}]::getUserProfile(), set user data", $this->user );
-
-			Hybrid_Auth::storage()->set( "hauth_session.user.data" , $this->user );
+        # detect user profile from the returned data 
+        $this->user->profile->profileURL  = @ $_REQUEST["openid_identity"];
+        $this->user->profile->firstName   = @ $_REQUEST['openid_ext1_value_first'];
+        $this->user->profile->lastName    = @ $_REQUEST['openid_ext1_value_last'];
+        $this->user->profile->displayName = $this->user->profile->firstName . " " . $this->user->profile->lastName;
+        $this->user->profile->email       = @ $_REQUEST['openid_ext1_value_email'];
+        $this->user->profile->language    = @ $_REQUEST['openid_ext1_value_lang'];
+        $this->user->profile->country     = @ $_REQUEST['openid_ext1_value_country'];
+      
+        # Get additional profile data!
+        $rawSelfData = getPortableContactsData($consumer, $sig_method, $access_token, "@me/@self", NULL);
+        
+        if(strlen($rawSelfData) > 0)
+        {
+          $selfData = @json_decode($rawSelfData);
+          
+          if(is_object($selfData) && (isset($selfData->entry))&& (isset($selfData->entry->thumbnailUrl)))
+          {
+            $this->user->profile->photoURL = $selfData->entry->thumbnailUrl;
+          }
+        }
+        
+        $rawSelfData2 = getPortableContactsData($consumer, $sig_method, $access_token, "@me/@self", array("fields" => "birthday, gender"));
+        
+        if(strlen($rawSelfData2) > 0)
+        {
+          $selfData2 = @json_decode($rawSelfData2);
+          
+          if(is_object($selfData2) && (isset($selfData2->entry)))
+          {
+            if(isset($selfData2->entry->birthday))
+            {
+              $birthdate = @explode('T', $selfData2->entry->birthday);
+              
+              if(count($birthdate) > 0)
+              {
+                list($birthday_year, $birthday_month, $birthday_day) = @ explode('-', $birthdate[0]);
+  
+                $this->user->profile->birthDay      = $birthday_day;
+                $this->user->profile->birthMonth    = $birthday_month;
+                
+                if(($birthday_year != "0000")&&($birthday_year!=date("Y")))
+                {
+                  $this->user->profile->birthYear     = $birthday_year;
+                }
+              }
+            }
+            
+            $this->user->profile->gender          = @$selfData->entry->gender;
+          }
+        }
+        
+        # Save it.
+        Hybrid_Logger::info( "[{$this->providerId}]::getUserProfile(), set user data", $this->user);
+        Hybrid_Auth::storage()->set( "hauth_session.user.data" , $this->user );
+      }
 		}
-		else
-		{
-			Hybrid_Logger::info( "[{$this->providerId}]::getUserProfile(), reSet user to deconnected" );
-			Hybrid_Auth::storage()->set( "hauth_session.is_logged_in", 0 );
-			Hybrid_Auth::storage()->set( "hauth_session.user.data", NULL );
+		
+		
+		if(!$userConnected )
+    {
+      Hybrid_Logger::info( "[{$this->providerId}]::getUserProfile(), reSet user to deconnected" );
+      Hybrid_Auth::storage()->set( "hauth_session.is_logged_in", 0 );
+      Hybrid_Auth::storage()->set( "hauth_session.user.data", NULL );
 
-			throw new Exception( "Authentification failed! For some reason, {$this->providerId} has returned an invalid response. Giving up." );
-		}
+      throw new Exception( "Authentification failed! For some reason, {$this->providerId} has returned an invalid response. Giving up." );
+    }
 
 		// if the the provider has failed to return the user profile
 		if ( ! $this->user->providerUID )
