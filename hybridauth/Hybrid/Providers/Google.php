@@ -277,7 +277,10 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model
               }
             }
             
-            $this->user->profile->gender          = @$selfData->entry->gender;
+            if(isset($selfData->entry->gender))
+            {
+              $this->user->profile->gender          = $selfData->entry->gender;
+            }
           }
         }
         
