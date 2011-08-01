@@ -53,5 +53,20 @@ function getPortableContactsData($consumer, $sig_method, $access_token, $dataEnd
   return $data;
 }
 
+function getAuthentifiedPictureURL($consumer, $sig_method, $access_token, $pictureURL)
+{
+  $feedUri = $pictureURL;
+  $req = OAuthRequest::from_consumer_and_token($consumer, $access_token, 'GET',
+                                               $feedUri, $parameters);
+  $req->sign_request($sig_method, $consumer, $access_token);
+
+  // Portable Contacts isn't GData, but we can use send_signed_request() from
+  // common.inc.php to make an authenticated request.
+  $data = send_signed_request($req->get_normalized_http_method(),
+  $feedUri.(($parameters != NULL)?("?".http_build_query($parameters)):""), $req->to_header(), NULL, false);
+
+  return $data;
+}
+
 
 ?>
