@@ -90,7 +90,7 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model
 		Hybrid_Logger::info( "Enter [{$this->providerId}]::loginBegin()" );
 
 		$url = $this->api->getLoginUrl(array(
-						'scope'        => 'email, publish_stream, offline_access, user_about_me, user_birthday, user_hometown, user_website',//'email, user_about_me, user_birthday, user_hometown, user_website',
+						'scope'        => 'email, user_about_me, user_birthday, user_hometown, user_website',
 						'redirect_uri' => $GLOBAL_HYBRID_AUTH_URL_EP . ( strpos( $GLOBAL_HYBRID_AUTH_URL_EP, '?' ) ? '&' : '?' ) . "hauth.done=Facebook",
 					));  
 
