@@ -102,6 +102,7 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model
 			'openid.realm'             => $GLOBAL_HYBRID_AUTH_URL_BASE,
 			'openid.mode'              => "checkid_setup",
 			'openid.ns.ui'             => 'http://specs.openid.net/extensions/ui/1.0',
+			'openid.ui.icon'           => 'true',
 			'openid.ns.ext1'           => 'http://openid.net/srv/ax/1.0',
 			'openid.ext1.mode'         => 'fetch_request',
 			'openid.ext1.type.email'   => 'http://axschema.org/contact/email',
