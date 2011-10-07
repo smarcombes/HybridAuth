@@ -43,7 +43,7 @@ $SIG_METHODS = array($rsa_method->get_name() => $rsa_method,
  * @return string Response body from the server
  */
 function send_signed_request($http_method, $url, $auth_header=null,
-                             $postData=null, $returnResponseHeaders=true) {
+                             $postData=null, $returnResponseHeaders=true, $requestIsInJsonFormat = false) {
   $curl = curl_init($url);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($curl, CURLOPT_FAILONERROR, false);
@@ -60,13 +60,13 @@ function send_signed_request($http_method, $url, $auth_header=null,
       }
       break;
     case 'POST':
-      $headers = array('Content-Type: application/atom+xml', $auth_header);
+      $headers = array('Content-Type: application/' + ($requestIsInJsonFormat)?'json':'atom+xml', $auth_header);
       curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($curl, CURLOPT_POST, 1);
       curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
       break;
     case 'PUT':
-      $headers = array('Content-Type: application/atom+xml', $auth_header);
+      $headers = array('Content-Type: application/' + ($requestIsInJsonFormat)?'json':'atom+xml', $auth_header);
       curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $http_method);
       curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
