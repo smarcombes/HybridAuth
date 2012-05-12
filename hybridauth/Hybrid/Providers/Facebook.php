@@ -89,10 +89,18 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model
 
 		Hybrid_Logger::info( "Enter [{$this->providerId}]::loginBegin()" );
 
-		$url = $this->api->getLoginUrl(array(
+    $loginUrlParams = array(
 						'scope'        => 'email, user_about_me, user_birthday, user_hometown, user_website, publish_stream, offline_access',
-						'redirect_uri' => $GLOBAL_HYBRID_AUTH_URL_EP . ( strpos( $GLOBAL_HYBRID_AUTH_URL_EP, '?' ) ? '&' : '?' ) . "hauth.done=Facebook",
-					));  
+						'redirect_uri' => $GLOBAL_HYBRID_AUTH_URL_EP . ( strpos( $GLOBAL_HYBRID_AUTH_URL_EP, '?' ) ? '&' : '?' ) . "hauth.done=Facebook"
+		);
+					
+    //Use popup layout if required
+		if((isset($this->params["use_popup_ui"]))&&($this->params["use_popup_ui"] === TRUE))
+		{
+			$loginUrlParams['display'] = 'popup';
+		}
+
+		$url = $this->api->getLoginUrl($loginUrlParams);  
 
 		Hybrid_Logger::info( "[{$this->providerId}]::loginBegin() redirect to url", $url );
 

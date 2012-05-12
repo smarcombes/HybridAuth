@@ -91,6 +91,17 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model
 		(
 			'http://www-opensocial.googleusercontent.com/api/people/'
 		);
+		
+		//Use additional scopes if required
+		if((isset($this->params["google_additional_scopes"]))&&(is_array($this->params["google_additional_scopes"])>0)
+		{
+			foreach($this->params["google_additional_scopes"] as $scope)
+			{
+        $this->oauthScopes[] = $scope;
+			}
+			
+			$this->oauthScopes = array_values(array_unique($this->oauthScopes));
+		}
 
 		# prepare some openid extra params
 		$this->openidParams = array
@@ -115,6 +126,12 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model
 			'openid.oauth.consumer'    => $this->config["keys"]["CONSUMER_KEY"],
 			'openid.oauth.scope'       => implode( ' ', $this->oauthScopes )
 		); 
+		
+		//Use popup layout if required
+		if((isset($this->params["use_popup_ui"]))&&($this->params["use_popup_ui"] === TRUE))
+		{
+			$this->openidParams['openid.ui.mode'] = 'popup';
+		}
 	}
 
 	// --------------------------------------------------------------------
