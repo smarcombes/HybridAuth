@@ -93,7 +93,7 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model
 		);
 		
 		//Use additional scopes if required
-		if((isset($this->params["google_additional_scopes"]))&&(is_array($this->params["google_additional_scopes"])>0)
+		if((isset($this->params["google_additional_scopes"]))&&(is_array($this->params["google_additional_scopes"])>0))
 		{
 			foreach($this->params["google_additional_scopes"] as $scope)
 			{
